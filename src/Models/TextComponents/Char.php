@@ -1,8 +1,8 @@
 <?php
 
-require_once dirname( __DIR__ ) . '/Interfaces/Frequency.php';
-require_once dirname( __DIR__ ) . '/Interfaces/Counter.php';
-require_once dirname( __DIR__ ) . '/helper_functions.php';
+require_once dirname(dirname( __DIR__ )) . '/Interfaces/Frequency.php';
+require_once dirname(dirname( __DIR__ )) . '/Interfaces/Counter.php';
+require_once dirname(dirname( __DIR__ )) . '/helper_functions.php';
 
 class Char implements Frequency, Counter {
 	private $array_chars = [];
@@ -20,7 +20,7 @@ class Char implements Frequency, Counter {
 	public function frequency(): string {
 		$freq_of_chars = [];
 		foreach ( count_chars( $this->chars_str, 1 ) as $key => $value ) {
-			$freq_of_chars[] = '"' . chr( $key ) . '"' . " matches : $value";
+			$freq_of_chars[] = '[' . chr( $key ) . ']' . " matches : $value";
 		}
 
 		return implode( '<br>', $freq_of_chars );
@@ -31,7 +31,7 @@ class Char implements Frequency, Counter {
 		$all_char_count = strlen( $this->chars_str );
 		foreach ( count_chars( $this->chars_str, 1 ) as $key => $value ) {
 			$percentage      = number_format( (float) ( $value / $all_char_count ) * 100, 2, '.', '' );
-			$freq_of_chars[] = '"' . chr( $key ) . '"' . " : $percentage % from total";
+			$freq_of_chars[] = '[' . chr( $key ) . ']' . " : $percentage % from total";
 		}
 
 		return implode( '<br>', $freq_of_chars );

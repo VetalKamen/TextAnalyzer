@@ -40,3 +40,7 @@ function reverse_default( $text ) {
 
 	return implode( ' ', $reversed );
 }
+
+function generate_hash( $text ) {
+	return sha1( (string) $text );
+}

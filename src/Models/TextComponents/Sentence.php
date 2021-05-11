@@ -1,8 +1,8 @@
 <?php
 
-require_once dirname( __DIR__ ) . '/Interfaces/Sorter.php';
-require_once dirname( __DIR__ ) . '/Interfaces/Counter.php';
-require_once dirname( __DIR__ ) . '/helper_functions.php';
+require_once dirname(dirname( __DIR__ )) . '/Interfaces/Sorter.php';
+require_once dirname(dirname( __DIR__ )) . '/Interfaces/Counter.php';
+require_once dirname(dirname( __DIR__ )) . '/helper_functions.php';
 
 class Sentence implements Sorter, Counter {
 	private $array_sentences;

@@ -1,0 +1,23 @@
+language: php
+
+php:
+  - '7.4'
+  - hhvm
+
+before_install:
+  - composer self-update
+
+install:
+  - composer install
+
+matrix:
+  allow_failures:
+    - php: hhvm
+  fast_finish: true
+
+script: ./vendor/bin/phpunit
+
+# Cache composer packages so "composer install" is faster
+cache:
+  directories:
+    - $HOME/.composer/cache/files
