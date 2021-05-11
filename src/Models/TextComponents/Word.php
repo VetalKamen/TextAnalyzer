@@ -1,17 +1,17 @@
 <?php
 
-require_once dirname( __DIR__ ) . '/Interfaces/Sorter.php';
-require_once dirname( __DIR__ ) . '/Interfaces/Counter.php';
-require_once dirname( __DIR__ ) . '/Interfaces/UsageMeter.php';
-require_once dirname( __DIR__ ) . '/helper_functions.php';
+require_once dirname( dirname( __DIR__ ) ) . '/Interfaces/Sorter.php';
+require_once dirname( dirname( __DIR__ ) ) . '/Interfaces/Counter.php';
+require_once dirname( dirname( __DIR__ ) ) . '/Interfaces/UsageMeter.php';
+require_once dirname( dirname( __DIR__ ) ) . '/helper_functions.php';
 
 class Word implements Sorter, Counter, UsageMeter {
 	private $array_words;
 	private $text;
 
 	public function __construct( $text ) {
-		$this->text = $text;
-		$this->array_words  = str_word_count( $text->get_text(), 1 );
+		$this->text        = $text;
+		$this->array_words = str_word_count( $text->get_text(), 1 );
 	}
 
 	public function get_array_words() {

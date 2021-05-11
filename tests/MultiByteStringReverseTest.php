@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-require_once dirname( __DIR__ ) . '/helper_functions.php';
+require_once dirname( __DIR__ ) . '/src/helper_functions.php';
 
 class MultiByteStringReverseTest extends TestCase {
 	/**

@@ -1,7 +1,7 @@
 <?php
 
-require_once 'Interfaces/Frequency.php';
-require_once 'helper_functions.php';
+require_once dirname( __DIR__ ) . '/Interfaces/Frequency.php';
+require_once dirname( __DIR__ ) . '/helper_functions.php';
 
 class Text {
 	private $text;
