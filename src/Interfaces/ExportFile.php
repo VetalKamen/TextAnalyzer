@@ -1,5 +1,6 @@
 <?php
 
-interface ExportFile {
-	public function export();
+interface ExportFile
+{
+    public function export();
 }
