@@ -29,48 +29,48 @@ $num_of_words      = '';
 $num_of_sentences  = '';
 $num_of_palindrome = '';
 $hash              = '';
-if ( ! empty( $_POST['input_text'] ) ) {
-	$valid_text = $_POST['input_text'];
+if (! empty($_POST['input_text']) ) {
+    $valid_text = $_POST['input_text'];
 
-	/**
-	 *  Check if input is valid url and sending GET request if success.
-	 */
-	if ( filter_var( $valid_text, FILTER_VALIDATE_URL ) ) {
-		$curlSession = curl_init();
-		curl_setopt( $curlSession, CURLOPT_URL, $valid_text );
-		curl_setopt( $curlSession, CURLOPT_HTTPHEADER, [ 'Content-Type:application/json' ] );
-		curl_setopt( $curlSession, CURLOPT_RETURNTRANSFER, true );
+    /**
+     *  Check if input is valid url and sending GET request if success.
+     */
+    if (filter_var($valid_text, FILTER_VALIDATE_URL) ) {
+        $curlSession = curl_init();
+        curl_setopt($curlSession, CURLOPT_URL, $valid_text);
+        curl_setopt($curlSession, CURLOPT_HTTPHEADER, [ 'Content-Type:application/json' ]);
+        curl_setopt($curlSession, CURLOPT_RETURNTRANSFER, true);
 
-		$curl_data = curl_exec( $curlSession );
+        $curl_data = curl_exec($curlSession);
 
-		$valid_text = strip_tags( $curl_data );
-		curl_close( $curlSession );
-	}
+        $valid_text = strip_tags($curl_data);
+        curl_close($curlSession);
+    }
 
-	$start = microtime( true );
-	$text  = new Text( $valid_text );
-	$hash  = generate_hash( $text->get_text() );
-} elseif ( empty( $_POST['input_text'] ) && ! empty( $_FILES['userfile'] ) ) {
-	$start = microtime( true );
-	$file  = FileFactory::uploadFile( $_FILES['userfile'] );
-	$text  = new Text( $file->__toString() );
-	$hash  = generate_hash( $text->get_text() );
+    $start = microtime(true);
+    $text  = new Text($valid_text);
+    $hash  = generate_hash($text->get_text());
+} elseif (empty($_POST['input_text']) && ! empty($_FILES['userfile']) ) {
+    $start = microtime(true);
+    $file  = FileFactory::uploadFile($_FILES['userfile']);
+    $text  = new Text($file->__toString());
+    $hash  = generate_hash($text->get_text());
 }
-if ( $reportController->is_analyzed( $hash ) ) {
-	$report->data['report'] = $reportController->get_report_by_hash( $hash );
-} elseif ( ! empty( $hash ) ) {
-	$word       = new Word( $text );
-	$char       = new Char( $text );
-	$sentence   = new Sentence( $text );
-	$palindrome = new Palindrome( $word );
-	$report     = new Report( session_id(), $text, $word, $char, $sentence, $palindrome, $hash );
-	$reportController->save_report( $report->data['report'] );
+if ($reportController->is_analyzed($hash) ) {
+    $report->data['report'] = $reportController->get_report_by_hash($hash);
+} elseif (! empty($hash) ) {
+    $word       = new Word($text);
+    $char       = new Char($text);
+    $sentence   = new Sentence($text);
+    $palindrome = new Palindrome($word);
+    $report     = new Report(session_id(), $text, $word, $char, $sentence, $palindrome, $hash);
+    $reportController->save_report($report->data['report']);
 }
 
-if ( isset( $_POST["hash_text"] ) && isset( $_POST['export_format'] ) ) {
-	$report_to_download = $reportController->get_report_by_hash( $_POST["hash_text"] );
-	$file_for_export    = FileFactory::downloadFile( $report_to_download, $_POST['export_format'] );
-	$file_for_export->export();
+if (isset($_POST["hash_text"]) && isset($_POST['export_format']) ) {
+    $report_to_download = $reportController->get_report_by_hash($_POST["hash_text"]);
+    $file_for_export    = FileFactory::downloadFile($report_to_download, $_POST['export_format']);
+    $file_for_export->export();
 }
 ?>
 <!DOCTYPE>
@@ -117,7 +117,7 @@ if ( isset( $_POST["hash_text"] ) && isset( $_POST['export_format'] ) ) {
     </div>
     <br>
 </div>
-<?php if ( ! empty( $text ) ): ?>
+<?php if (! empty($text) ) : ?>
     <div>
         <p>Number of chars: <?php echo $report->data['report']['num_chars']; ?></p>
         <p>Number of words: <?php echo $report->data['report']['num_words']; ?></p>
@@ -138,15 +138,15 @@ if ( isset( $_POST["hash_text"] ) && isset( $_POST['export_format'] ) ) {
         <p>Top 10 longest palindrome
             words: <?php echo "<br>" . $report->data['report']['top_10_longest_palindromes']; ?></p>
         <p>Is the whole text a palindrome? (Without whitespaces and punctuation marks):
-			<?php echo $report->data['report']['is_text_palindrome']; ?>
+    <?php echo $report->data['report']['is_text_palindrome']; ?>
         </p>
-		<?php
-		$end       = microtime( true );
-		$exec_time = $end - $start;
-		?>
+    <?php
+    $end       = microtime(true);
+    $exec_time = $end - $start;
+    ?>
         <p>The time it took to process the text in ms: <?php echo $exec_time; ?></p>
         <p>The reversed text: <?php echo $report->data['report']['reversed_text']; ?></p>
-        <p>Report has been generated at: <?php echo date( "Y-m-d H:i:s" ); ?></p>
+        <p>Report has been generated at: <?php echo date("Y-m-d H:i:s"); ?></p>
         <p>The reversed text but the character order in words kept
             intact: <?php echo $report->data['report']['reversed_with_order_intact']; ?></p>
         <p>Text hash: <?php echo $report->data['report']['hash_text']; ?></p>
