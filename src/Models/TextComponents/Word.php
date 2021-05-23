@@ -12,7 +12,7 @@ class Word implements Sorter, Counter, UsageMeter
 
     public function __construct( $text )
     {
-        $this->text        = $text;
+        $this->text        = $text->get_text();
         $this->array_words = str_word_count($text->get_text(), 1);
     }
 
