@@ -1,7 +1,8 @@
 <?php
 
-interface Frequency {
-	public function frequency();
+interface Frequency
+{
+    public function frequency();
 
-	public function frequency_in_percentage();
+    public function frequency_in_percentage();
 }

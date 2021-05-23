@@ -4,15 +4,15 @@ require_once 'Controllers/ReportSessionController.php';
 require_once 'helper_functions.php';
 session_start();
 
-if ( ! empty( $_POST['date_from'] ) && ! empty( $_POST['date_to'] ) ) {
-	$date_from   = $_POST['date_from'];
-	$date_to     = $_POST['date_to'];
-	$all_reports = $reportController->all_reports_for_timeframe( $date_from, $date_to );
+if (! empty($_POST['date_from']) && ! empty($_POST['date_to']) ) {
+    $date_from   = $_POST['date_from'];
+    $date_to     = $_POST['date_to'];
+    $all_reports = $reportController->all_reports_for_timeframe($date_from, $date_to);
 } else {
-	$all_reports = $reportController->all_reports();
+    $all_reports = $reportController->all_reports();
 }
 
-$all_rep_count                                = count( $all_reports );
+$all_rep_count                                = count($all_reports);
 $sum_all_data['number_chars']                 = 0;
 $sum_all_data['number_words']                 = 0;
 $sum_all_data['number_sentences']             = 0;
@@ -21,15 +21,15 @@ $sum_all_data['avg_word_length']              = 0;
 $sum_all_data['avg_num_of_words_in_sentence'] = 0;
 
 foreach ( $all_reports as $report ) {
-	$sum_all_data['number_chars']                 += $report['num_chars'];
-	$sum_all_data['number_words']                 += $report['num_words'];
-	$sum_all_data['number_sentences']             += $report['num_sentences'];
-	$sum_all_data['number_palindromes']           += $report['num_palindromes'];
-	$sum_all_data['avg_word_length']              += $report['avg_word_length'];
-	$sum_all_data['avg_num_of_words_in_sentence'] += $report['avg_num_of_words_in_sentence'];
+    $sum_all_data['number_chars']                 += $report['num_chars'];
+    $sum_all_data['number_words']                 += $report['num_words'];
+    $sum_all_data['number_sentences']             += $report['num_sentences'];
+    $sum_all_data['number_palindromes']           += $report['num_palindromes'];
+    $sum_all_data['avg_word_length']              += $report['avg_word_length'];
+    $sum_all_data['avg_num_of_words_in_sentence'] += $report['avg_num_of_words_in_sentence'];
 }
 
-$last_10_results = $reportSessionController->reports_by_session( session_id() );
+$last_10_results = $reportSessionController->reports_by_session(session_id());
 ?>
 <!DOCTYPE>
 <html lang="en">
@@ -41,13 +41,15 @@ $last_10_results = $reportSessionController->reports_by_session( session_id() );
 <div>
     <h1>STATISTICAL INFO OF ALL REPORTS:</h1>
     Number of text submitted: <?php echo $all_rep_count; ?><br>
-    Average Number of Chars:<?php echo average( $sum_all_data['number_chars'], $all_rep_count ); ?><br>
-    Average Number of Words:<?php echo average( $sum_all_data['number_words'], $all_rep_count ); ?><br>
-    Average Number of Sentences:<?php echo average( $sum_all_data['number_sentences'], $all_rep_count ); ?><br>
-    Average Number of Palindromes:<?php echo average( $sum_all_data['number_palindromes'], $all_rep_count ); ?><br>
-    Average Word Length:<?php echo average( $sum_all_data['avg_word_length'], $all_rep_count ); ?><br>
-    Average Number of Words in Sentence:<?php echo average( $sum_all_data['avg_num_of_words_in_sentence'],
-		$all_rep_count ); ?>
+    Average Number of Chars:<?php echo average($sum_all_data['number_chars'], $all_rep_count); ?><br>
+    Average Number of Words:<?php echo average($sum_all_data['number_words'], $all_rep_count); ?><br>
+    Average Number of Sentences:<?php echo average($sum_all_data['number_sentences'], $all_rep_count); ?><br>
+    Average Number of Palindromes:<?php echo average($sum_all_data['number_palindromes'], $all_rep_count); ?><br>
+    Average Word Length:<?php echo average($sum_all_data['avg_word_length'], $all_rep_count); ?><br>
+    Average Number of Words in Sentence:<?php echo average(
+        $sum_all_data['avg_num_of_words_in_sentence'],
+        $all_rep_count
+    ); ?>
 </div>
 <div>
     <h3>Filter by Date:</h3>
@@ -63,8 +65,8 @@ $last_10_results = $reportSessionController->reports_by_session( session_id() );
 
 <div>
     <h2>Your last 10 results:</h2>
-	<?php if ( ! empty( $last_10_results ) ): $count = 1; ?>
-		<?php foreach ( $last_10_results as $report ): ?>
+    <?php if (! empty($last_10_results) ) : $count = 1; ?>
+        <?php foreach ( $last_10_results as $report ): ?>
             <div>
                 <strong><?php echo 'TEXT #' . $count; ?></strong>
                 <p>Number of chars: <?php echo $report['num_chars']; ?></p>
@@ -86,17 +88,17 @@ $last_10_results = $reportSessionController->reports_by_session( session_id() );
                 <p>Top 10 longest palindrome
                     words: <?php echo "<br>" . $report['top_10_longest_palindromes']; ?></p>
                 <p>Is the whole text a palindrome? (Without whitespaces and punctuation marks):
-					<?php echo $report['is_text_palindrome']; ?>
+            <?php echo $report['is_text_palindrome']; ?>
                 </p>
                 <p>The reversed text: <?php echo $report['reversed_text']; ?></p>
                 <p>Report has been generated at: <?php echo $report['created_at']; ?></p>
                 <p>The reversed text but the character order in words kept
                     intact: <?php echo $report['reversed_with_order_intact']; ?></p>
                 <p>Text hash: <?php echo $report['hash_text'];
-					$count ++ ?></p>
+                $count ++ ?></p>
             </div>
-		<?php endforeach; ?>
-	<?php endif; ?>
+        <?php endforeach; ?>
+    <?php endif; ?>
 </div>
 </body>
 </html>
